@@ -96,6 +96,7 @@ jobs:
         driver: docker-container  # ✅ Enables attestation support
     
     - name: Build and push the Docker image
+      id: build-push
       uses: docker/build-push-action@v5
       with:
         context: .
