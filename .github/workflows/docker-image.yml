@@ -99,7 +99,8 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         context: .
-        push: ${{ github.event_name != 'pull_request' }}
+        #push: ${{ github.event_name != 'pull_request' }}
+        push: true
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/githubactions_cas2_3:main
         labels: ${{ steps.meta.outputs.labels }}
         provenance: true
