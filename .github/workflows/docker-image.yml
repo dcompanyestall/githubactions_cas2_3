@@ -163,6 +163,7 @@ jobs:
       env:
         # https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-an-intermediate-environment-variable
         TAGS: ${{ steps.meta.outputs.tags }}
+        IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/githubactions_cas2_3
         DIGEST: ${{ steps.build-push.outputs.digest }}
         COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
         COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
@@ -173,10 +174,12 @@ jobs:
       run: |
         echo "Tags: ${TAGS}"
         echo "Digest: ${DIGEST}"
-        for tag in ${TAGS}; do
-          echo "Signing ${tag}@${DIGEST}"
-          cosign sign --yes --key env://COSIGN_PRIVATE_KEY "${tag}@${DIGEST}"
-        done
+        echo "Signing ${IMAGE}@${DIGEST}"
+        cosign sign --yes --key env://COSIGN_PRIVATE_KEY "${IMAGE}@${DIGEST}"
+        #for tag in ${TAGS}; do
+        #  echo "Signing ${tag}@${DIGEST}"
+        #  cosign sign --yes --key env://COSIGN_PRIVATE_KEY "${tag}@${DIGEST}"
+        #done
 
     - name: Sign SBOM with Cosign
       env:
