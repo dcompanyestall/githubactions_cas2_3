@@ -112,7 +112,8 @@ jobs:
       uses: anchore/sbom-action@v0
       with:
         #image: "${{ secrets.DOCKERHUB_USERNAME }}/githubactions_cas2_3:main"
-        image: ${{ steps.build-push.outputs.digest }}
+        #image: ${{ steps.build-push.outputs.digest }}
+        image: ${{ secrets.DOCKERHUB_USERNAME }}/githubactions_cas2_3@${{ steps.build-push.outputs.digest }}
         format: "spdx-json"
         output-file: "sbom.spdx.json"
     
