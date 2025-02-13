@@ -186,7 +186,14 @@ jobs:
         COSIGN_EXPERIMENTAL: "true"
       # This step uses the identity token to provision an ephemeral certificate
       # against the sigstore community Fulcio instance.
-      run: echo "${TAGS}" | xargs -I {} cosign sign --yes --key env://COSIGN_PRIVATE_KEY {}@${DIGEST}
+      # run: echo "${TAGS}" | xargs -I {} cosign sign --yes --key env://COSIGN_PRIVATE_KEY {}@${DIGEST}
+      run: |
+        echo "Tags: ${TAGS}"
+        echo "Digest: ${DIGEST}"
+        for tag in ${TAGS}; do
+          echo "Signing ${tag}@${DIGEST}"
+          cosign sign --yes --key env://COSIGN_PRIVATE_KEY "${tag}@${DIGEST}"
+        done
 
     - name: Sign SBOM with Cosign
       env:
